@@ -8,12 +8,9 @@ import spark.kafka.Util.HibernateUtil;
 public class EmployeeDao {
     private String name;
     Employee employee;
-    public EmployeeDao(String name) {
-        this.name = name;
-    }
 
 
-    public void saveEmployee() {
+    public void saveEmployee(Employee employee) {
         Session session = null;
         Transaction transaction = null;
 
@@ -23,8 +20,6 @@ public class EmployeeDao {
 
             // Begin a transaction
             transaction = session.beginTransaction();
-            employee = new Employee();
-            employee.setName(name);
             session.save(employee);
             transaction.commit();
 

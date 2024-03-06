@@ -1,14 +1,13 @@
 package spark.kafka;
 
 import spark.kafka.Dao.EmployeeDao;
+import spark.kafka.Entity.Employee;
 
 public class Main {
     public static void main(String[] args) {
-        EmployeeDao employee1 = new EmployeeDao("slah");
-        EmployeeDao employee2 = new EmployeeDao("monir");
-        EmployeeDao employee3 = new EmployeeDao("mohamed");
-        employee1.saveEmployee();
-        employee2.saveEmployee();
-        employee3.saveEmployee();
+        EmployeeDao dao = new EmployeeDao();
+        dao.saveEmployee(new Employee("emp1"));
+        dao.saveEmployee(new Employee("emp2"));
+        dao.saveEmployee(new Employee("emp3"));
     }
 }
