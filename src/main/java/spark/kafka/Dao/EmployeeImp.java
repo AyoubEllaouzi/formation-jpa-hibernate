@@ -2,11 +2,10 @@ package spark.kafka.Dao;
 
 import spark.kafka.Entity.Employee;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EmployeeImp implements IEmployee{
     /* Déclaration de l’objet EntityManager qui permet de gérer les entités*/
@@ -36,6 +35,54 @@ public class EmployeeImp implements IEmployee{
         transaction.rollback();
         e.printStackTrace();
     }
+    }
+
+    @Override
+    public void update(Employee employee) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
+        try {
+            entityManager.merge(employee);
+            transaction.commit();
+        }catch (Exception e){
+            transaction.rollback();
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public Employee findById(Long id) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+        Employee employee = null;
+        try {
+            employee = entityManager.find(Employee.class, id);
+            transaction.commit();
+        }catch (Exception e){
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        return employee;
+    }
+
+    @Override
+    public List<Employee> findAll() {
+        Query query = entityManager.createQuery("SELECT e FROM Employee e");
+        return query.getResultList();
+    }
+
+    @Override
+    public void delete(Employee employee) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+        try {
+            entityManager.remove(employee);
+            transaction.commit();
+        }catch (Exception e){
+            transaction.rollback();
+            e.printStackTrace();
+        }
     }
 
 
